@@ -1,0 +1,22 @@
+{
+  "name": "create-course",
+  "version": "1.0.0",
+  "description": "Creates a new Canvas course for our conversion tool.",
+  "main": "createCourse.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/byuitechops/create-course.git"
+  },
+  "author": "Daniel Green",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/byuitechops/create-course/issues"
+  },
+  "homepage": "https://github.com/byuitechops/create-course#readme",
+  "dependencies": {
+    "request": "^2.83.0"
+  }
+}
