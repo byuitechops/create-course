@@ -30,7 +30,8 @@ module.exports = (course, stepCallback) => {
       courseName = course.info.fileName.split(/\d{3}\w?/i)[0].trim();
    } else {
       courseName = course.info.fileName.split('.zip')[0];
-      courseCode = '101;'
+      courseCode = course.info.fileName.split('.zip')[0];
+      // courseCode = '101';
    }
 
    request.post({
