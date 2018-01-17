@@ -35,7 +35,7 @@ module.exports = (course, stepCallback) => {
    }
 
    request.post({
-      url: "https://byui.instructure.com/api/v1/accounts/1/courses",
+      url: "https://byui.instructure.com/api/v1/accounts/19/courses",
       form: {
          'course[name]': courseName,
          'course[course_code]': courseCode,
