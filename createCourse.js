@@ -11,11 +11,9 @@ const request = require('request'),
  * saves canvasOU to the course object
  **************************************/
 module.exports = (course, stepCallback) => {
-   course.addModuleReport("createCourse");
-
    if (course.settings.canvasOU) {
       course.newInfo('canvasOU', course.settings.canvasOU);
-      course.success('CreateCourse', `Determined to use existing course with the CanvasOU of ${course.settings.canvasOU}`);
+      course.log('Create Canvas Course', {'Canvas Course OU': course.settings.canvasOU}); // ,`Determined to use existing course with the CanvasOU of ${course.settings.canvasOU}`);
       stepCallback(null, course);
       return;
    }
@@ -44,7 +42,7 @@ module.exports = (course, stepCallback) => {
       }
    }, function (err, response, body) {
       if (err) {
-         course.throwFatalErr("createCourse", err);
+         course.FatalError(err);
          stepCallback(err, course);
          return;
       } else {
@@ -56,7 +54,7 @@ module.exports = (course, stepCallback) => {
          course.newInfo('canvasOU', body.id);
 
          //course.report.moduleLogs['importCourse'].changes.push('Course successfully created in Canvas');
-         course.success("createCourse", "Course successfully created in Canvas");
+         course.log("Create Canvas Course", {'Canvas Course OU': body.id});
          stepCallback(null, course);
       }
    }).auth(null, null, true, auth.token);
