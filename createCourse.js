@@ -12,14 +12,6 @@ const request = require('request'),
  **************************************/
 module.exports = (course, stepCallback) => {
 
-    if (course.settings.canvasOU) {
-        course.newInfo('canvasOU', course.settings.canvasOU);
-        course.message(`Canvas OU was already provided. A new course was not created. Course ID used: ${course.settings.canvasOU}`);
-        stepCallback(null, course);
-        return;
-    }
-
-
     var courseName = '',
         courseCode = '';
 
@@ -34,12 +26,12 @@ module.exports = (course, stepCallback) => {
     }
 
     request.post({
-        url: "https://byui.instructure.com/api/v1/accounts/19/courses",
+        url: 'https://byui.instructure.com/api/v1/accounts/19/courses',
         form: {
             'course[name]': courseName,
             'course[course_code]': courseCode,
-            'course[license]': "public_domain",
-            'course[is_public_to_auth_users]': "true"
+            'course[license]': 'public_domain',
+            'course[is_public_to_auth_users]': 'true'
         }
     }, function (err, response, body) {
         if (err) {
@@ -47,15 +39,17 @@ module.exports = (course, stepCallback) => {
             stepCallback(err, course);
             return;
         } else {
-            //console.log(chalk.green(courseName + " Successfully created"));
-            //console.log('Course Number: ', body.id);
             body = JSON.parse(body);
 
-            //course.info.canvasOU = body.id;
-            course.newInfo('canvasOU', body.id);
+            /* if an OU was provided, save new OU to prototypeOU */
+            if (course.info.canvasOU) {
+                course.message(`PrototypeOU saved - ${body.id}`);
+                course.newInfo('prototypeOU', body.id);
+            } else {
+                course.message('New Canvas course created.');
+                course.newInfo('canvasOU', body.id);
+            }
 
-            //course.report.moduleLogs['importCourse'].changes.push('Course successfully created in Canvas');
-            course.message('Course successfully created in Canvas');
             stepCallback(null, course);
         }
     }).auth(null, null, true, auth.token);
