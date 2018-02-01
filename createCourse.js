@@ -12,6 +12,15 @@ const request = require('request'),
  **************************************/
 module.exports = (course, stepCallback) => {
 
+    // course.info.canvasOU = ''; // FOR MANUALLY UPLOADING TO A NEW COURSE
+
+    if (course.info.canvasOU) {
+        course.message('Canvas OU detected. Moving to copy a canvas course');
+        course.newInfo('copyCourse', true);
+        stepCallback(null, course);
+        return;
+    }
+
     var courseName = '',
         courseCode = '';
 
@@ -41,14 +50,8 @@ module.exports = (course, stepCallback) => {
         } else {
             body = JSON.parse(body);
 
-            /* if an OU was provided, save new OU to prototypeOU */
-            if (course.info.canvasOU) {
-                course.message(`PrototypeOU saved - ${body.id}`);
-                course.newInfo('prototypeOU', body.id);
-            } else {
-                course.message('New Canvas course created.');
-                course.newInfo('canvasOU', body.id);
-            }
+            course.message(`New Canvas course created with id ${body.id}.`);
+            course.newInfo('canvasOU', body.id);
 
             stepCallback(null, course);
         }
