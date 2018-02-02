@@ -14,7 +14,7 @@ module.exports = (course, stepCallback) => {
 
     // course.info.canvasOU = ''; // FOR MANUALLY UPLOADING TO A NEW COURSE
 
-    if (course.info.canvasOU) {
+    if (course.info.canvasOU != '') {
         course.message('Canvas OU detected. Moving to copy a canvas course');
         course.newInfo('copyCourse', true);
         stepCallback(null, course);
@@ -31,7 +31,6 @@ module.exports = (course, stepCallback) => {
     } else {
         courseName = course.info.fileName.split('.zip')[0];
         courseCode = course.info.fileName.split('.zip')[0];
-        // courseCode = '101';
     }
 
     request.post({
