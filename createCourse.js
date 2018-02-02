@@ -51,7 +51,7 @@ module.exports = (course, stepCallback) => {
             body = JSON.parse(body);
 
             course.message(`New Canvas course created with id ${body.id}.`);
-            course.newInfo('canvasOU', body.id);
+            course.info.canvasOU = body.id;
 
             stepCallback(null, course);
         }
