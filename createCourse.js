@@ -12,10 +12,7 @@ const request = require('request'),
  **************************************/
 module.exports = (course, stepCallback) => {
 
-    // course.info.canvasOU = ''; // FOR MANUALLY UPLOADING TO A NEW COURSE
-
     if (course.info.canvasOU != '') {
-        course.message('Canvas OU detected. Moving to copy a canvas course');
         course.newInfo('copyCourse', true);
         stepCallback(null, course);
         return;
@@ -49,7 +46,7 @@ module.exports = (course, stepCallback) => {
         } else {
             body = JSON.parse(body);
 
-            course.message(`New Canvas course created with id ${body.id}.`);
+            course.message(`New Canvas course created with id ${body.id}`);
             course.info.canvasOU = body.id;
 
             stepCallback(null, course);
