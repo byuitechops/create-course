@@ -30,6 +30,9 @@ module.exports = (course, stepCallback) => {
         courseCode = course.info.fileName.split('.zip')[0];
     }
 
+    course.newInfo('courseCode', courseCode);
+    course.newInfo('courseName', courseName);
+
     request.post({
         url: 'https://byui.instructure.com/api/v1/accounts/19/courses',
         form: {
