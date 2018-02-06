@@ -18,26 +18,11 @@ module.exports = (course, stepCallback) => {
         return;
     }
 
-    var courseName = '',
-        courseCode = '';
-
-    /* Get Canvas course name from the fileName */
-    if ((/\d{3}\w?/i).test(course.info.fileName)) {
-        courseCode = course.info.fileName.match(/\d{3}\w?/i)[0];
-        courseName = course.info.fileName.split(/\d{3}\w?/i)[0].trim();
-    } else {
-        courseName = course.info.fileName.split('.zip')[0];
-        courseCode = course.info.fileName.split('.zip')[0];
-    }
-
-    course.newInfo('courseCode', courseCode);
-    course.newInfo('courseName', courseName);
-
     request.post({
         url: 'https://byui.instructure.com/api/v1/accounts/19/courses',
         form: {
-            'course[name]': courseName,
-            'course[course_code]': courseCode,
+            'course[name]': course.info.courseName,
+            'course[course_code]': course.info.courseCode,
             'course[license]': 'public_domain',
             'course[is_public_to_auth_users]': 'true'
         }
