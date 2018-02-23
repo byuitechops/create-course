@@ -12,7 +12,7 @@ const request = require('request'),
  **************************************/
 module.exports = (course, stepCallback) => {
 
-    if (course.info.canvasOU != '') {
+    if (course.info.canvasOU != '' && course.info.canvasOU != undefined) {
         course.newInfo('copyCourse', true);
         stepCallback(null, course);
         return;
