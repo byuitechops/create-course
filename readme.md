@@ -34,9 +34,9 @@ A new property titled `canvasOU` is created on course.info.
 
 Describe in steps how the module accomplishes its goals.
 
-1. Does this thing
-2. Does that thing
-3. Does that other thing
+1. Check if canvasOU exists
+2. Create a new course with a POST request
+3. save OU of new course
 
 ## Log Categories
 This module does not use course.log anywhere.
