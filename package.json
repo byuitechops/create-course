@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/byuitechops/create-course#readme",
   "dependencies": {
-    "request": "^2.83.0"
+    "canvas-wrapper": "github:byuitechops/canvas-wrapper"
   }
 }

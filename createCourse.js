@@ -2,8 +2,7 @@
 /*eslint no-console:0*/
 
 /* Put dependencies here */
-const request = require('request'),
-    auth = require('../../auth.json');
+const canvas = require('canvas-wrapper');
 
 
 /**************************************
@@ -12,32 +11,29 @@ const request = require('request'),
  **************************************/
 module.exports = (course, stepCallback) => {
 
+    /* only run if there isn't an existing canvas OU */
     if (course.info.canvasOU != '' && course.info.canvasOU != undefined) {
         course.newInfo('copyCourse', true);
         stepCallback(null, course);
         return;
     }
 
-    request.post({
-        url: `https://${course.info.domain}.instructure.com/api/v1/accounts/19/courses`,
-        form: {
-            'course[name]': course.info.courseName,
-            'course[course_code]': course.info.courseCode,
-            'course[license]': 'public_domain',
-            'course[is_public_to_auth_users]': 'true'
-        }
-    }, function (err, response, body) {
-        if (err) {
-            course.fatalError(err);
-            stepCallback(err, course);
+    const courseOptions = {
+        'course[name]': course.info.courseName,
+        'course[course_code]': course.info.courseCode,
+        'course[license]': 'public_domain',
+        'course[is_public_to_auth_users]': 'true'
+    };
+
+    canvas.post(`https://${course.info.domain}.instructure.com/api/v1/accounts/19/courses`, courseOptions, (createErr, newCourse) => {
+        if (createErr) {
+            course.fatalError(createErr);
+            stepCallback(createErr, course);
             return;
-        } else {
-            body = JSON.parse(body);
-
-            course.message(`New Canvas course created with id ${body.id}`);
-            course.info.canvasOU = body.id;
-
-            stepCallback(null, course);
         }
-    }).auth(null, null, true, auth.token);
+        course.message(`New Canvas course created with id ${newCourse.id}`);
+        course.newInfo('canvasOU', newCourse.id);
+
+        stepCallback(null, course);
+    });
 };
