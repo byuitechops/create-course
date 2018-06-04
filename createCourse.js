@@ -25,7 +25,7 @@ module.exports = (course, stepCallback) => {
         'course[is_public_to_auth_users]': 'true'
     };
 
-    canvas.post(`https://${course.info.domain}.instructure.com/api/v1/accounts/${course.settings.accountID}/courses`, courseOptions, (createErr, newCourse) => {
+    canvas.post(`https://byui.instructure.com/api/v1/accounts/${course.settings.accountID}/courses`, courseOptions, (createErr, newCourse) => {
         if (createErr) {
             course.fatalError(createErr);
             stepCallback(createErr, course);
