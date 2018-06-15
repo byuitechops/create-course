@@ -11,13 +11,6 @@ const canvas = require('canvas-wrapper');
  **************************************/
 module.exports = (course, stepCallback) => {
 
-    /* only run if there isn't an existing canvas OU */
-    if (course.info.canvasOU != '' && course.info.canvasOU != undefined) {
-        course.newInfo('copyCourse', true);
-        stepCallback(null, course);
-        return;
-    }
-
     const courseOptions = {
         'course[name]': course.info.courseName,
         'course[course_code]': course.info.courseCode,
@@ -32,7 +25,7 @@ module.exports = (course, stepCallback) => {
             return;
         }
         course.message(`New Canvas course created with id ${newCourse.id}`);
-        course.newInfo('canvasOU', newCourse.id);
+        course.info.canvasOU = newCourse.id;
 
         stepCallback(null, course);
     });
